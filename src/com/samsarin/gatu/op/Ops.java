@@ -7,6 +7,7 @@ package com.samsarin.gatu.op;
 import com.samsarin.gatu.primitive.Candidate;
 import com.samsarin.gatu.primitive.CandidateKey;
 import com.samsarin.gatu.primitive.Chromosome;
+import com.samsarin.gatu.primitive.ChromosomeBuilder;
 import com.samsarin.gatu.primitive.Pair;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -54,12 +55,13 @@ public class Ops {
     public static MutationOp pointMutation(final double probability) {
         return new MutationOp() {
             public Chromosome mutate(Chromosome chromosome) {
+                ChromosomeBuilder cb = new ChromosomeBuilder(chromosome);
                 for (int i = 0; i < chromosome.length(); ++i) {
                     if (random.nextDouble() < probability) {
-                        chromosome = chromosome.mutate(i);
+                        cb.mutate(i);
                     }
                 }
-                return chromosome;  
+                return cb.toChromosome();  
             }
         };
     }
@@ -67,15 +69,15 @@ public class Ops {
     public static MutationOp inversion(final double probability) {
         return new MutationOp() {
             public Chromosome mutate(Chromosome chromosome) {
+                ChromosomeBuilder cb = new ChromosomeBuilder(chromosome);
                 for (int i = 0; i < chromosome.length(); ++i) {
                     if (random.nextDouble() < probability) {
                         int toIndex = random.nextInt(chromosome.length() - i) + i + 1;
-                        Chromosome inverted = chromosome.range(i, toIndex).invert();
-                        chromosome = chromosome.replace(i, inverted);
+                        cb.invert(i, toIndex);
                         i = toIndex;
                     }
                 }
-                return chromosome;
+                return cb.toChromosome();
             }
         };
     }
@@ -86,11 +88,14 @@ public class Ops {
                 assert pair.first().length() == pair.second().length();
                 int crossoverPoint = random.nextInt(pair.first().length() - 1) + 1;
                 int length = pair.first().length();
-                Chromosome first = pair.first().range(0, crossoverPoint)
-                        .append(pair.second().range(crossoverPoint, length));
-                Chromosome second = pair.second().range(0, crossoverPoint)
-                        .append(pair.first().range(crossoverPoint, length));
-                return new Pair<Chromosome>(first, second);
+                
+                ChromosomeBuilder first = new ChromosomeBuilder(pair.first());
+                ChromosomeBuilder second = new ChromosomeBuilder(pair.second());
+                
+                for (int i = crossoverPoint; i < first.length(); ++i) {
+                    swapGene(i, first, second);
+                }
+                return new Pair<Chromosome>(first.toChromosome(), second.toChromosome());
             }
         };
     }
@@ -119,5 +124,12 @@ public class Ops {
                 return generationNum == current;
             }
         };
+    }
+    
+    private static void swapGene(int index, ChromosomeBuilder cb1, ChromosomeBuilder cb2) {
+        boolean val1 = cb1.get(index);
+        boolean val2 = cb2.get(index);
+        cb1.set(index, val2);
+        cb2.set(index, val1);
     }
 }

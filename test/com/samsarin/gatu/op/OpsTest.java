@@ -11,6 +11,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import com.samsarin.gatu.primitive.Chromosome;
+import com.samsarin.gatu.primitive.ChromosomeBuilder;
 import com.samsarin.gatu.primitive.Chromosomes;
 import com.samsarin.gatu.primitive.Pair;
 
@@ -43,15 +44,15 @@ public class OpsTest {
     @Test
     public void singlePointCrossover() {
         Chromosome c1 = Chromosomes.empty(5);
-        Chromosome c2 = Chromosomes.empty(5);
+        ChromosomeBuilder cb2 = new ChromosomeBuilder(5);
 
-        for (int i = 0; i < c2.length(); ++i) {
-            c2 = c2.set(i, true);
+        for (int i = 0; i < cb2.length(); ++i) {
+            cb2.set(i, true);
         }
 
         for (int i = 0; i < 10; ++i) {
             CrossoverOp op = Ops.singlePointCrossover();
-            Pair<Chromosome> r = op.crossover(new Pair<Chromosome>(c1, c2));
+            Pair<Chromosome> r = op.crossover(new Pair<Chromosome>(c1, cb2.toChromosome()));
     
             assertCrossover(r.first(), 5, false);
             assertCrossover(r.second(), 5, true);
