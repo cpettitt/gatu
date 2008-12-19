@@ -19,17 +19,22 @@ public class ImageFitnessOp implements FitnessOp {
     private final int sizeX;
     private final int sizeY;
     private final int[] srcColors;
+    private final int minVerticesPerPoly;
+    private final int maxVerticesPerPoly;
     
-    public ImageFitnessOp(BufferedImage image) {
+    public ImageFitnessOp(BufferedImage image, int minVerticesPerPoly, int maxVerticesPerPoly) {
         sizeX = image.getWidth();
         sizeY = image.getHeight();
         srcColors = imageToByteArray(image);
+        this.minVerticesPerPoly = minVerticesPerPoly;
+        this.maxVerticesPerPoly = maxVerticesPerPoly;
     }
     
     public double fitness(Chromosome chromosome) {
         double delta = 0;
         
-        List<ColoredPolygon> polygons = PolygonDecoder.decode(chromosome, sizeX, sizeY);
+        List<ColoredPolygon> polygons = PolygonDecoder.decode(chromosome, sizeX, sizeY,
+                minVerticesPerPoly, maxVerticesPerPoly);
         int[] phenotype = createPhenotype(polygons);
         
         assert phenotype.length == srcColors.length;

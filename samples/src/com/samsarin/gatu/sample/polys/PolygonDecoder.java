@@ -24,22 +24,29 @@ public class PolygonDecoder {
     private final int sizeY;
     private final int bitsPerX;
     private final int bitsPerY;
+    private final int minVerticesPerPoly;
+    private final int maxVerticesPerPoly;
+    private final int bitsPerVertexCount;
     private int index;
     
-    private PolygonDecoder(int sizeX, int sizeY) {
+    private PolygonDecoder(int sizeX, int sizeY, int minVerticesPerPoly, int maxVerticesPerPoly) {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         this.bitsPerX = getBitsToStore(sizeX);
         this.bitsPerY = getBitsToStore(sizeY);
+        this.minVerticesPerPoly = minVerticesPerPoly;
+        this.maxVerticesPerPoly = maxVerticesPerPoly;
+        this.bitsPerVertexCount = getBitsToStore(maxVerticesPerPoly - minVerticesPerPoly);
     }
     
-    public static int bitsToEncodeNumTriangles(int numTriangles, int sizeX, int sizeY) {
+    public static int estimatedBitsToEncodePolys(int numPolys, int pointsPerPoly, int sizeX, int sizeY) {
         return (BITS_PER_COLOR_ELEM * 4 +
-                (getBitsToStore(sizeX) + getBitsToStore(sizeY)) * 3) * numTriangles;
+                (getBitsToStore(sizeX) + getBitsToStore(sizeY)) * pointsPerPoly) * numPolys;
     }
     
-    public static List<ColoredPolygon> decode(Chromosome chromosome, int sizeX, int sizeY) {
-        return new PolygonDecoder(sizeX, sizeY).decode(chromosome);
+    public static List<ColoredPolygon> decode(Chromosome chromosome, int sizeX, int sizeY,
+            int minVerticesPerPoly, int maxVerticesPerPoly) {
+        return new PolygonDecoder(sizeX, sizeY, minVerticesPerPoly, maxVerticesPerPoly).decode(chromosome);
     }
     
     public List<ColoredPolygon> decode(Chromosome chromosome) {
@@ -51,11 +58,15 @@ public class PolygonDecoder {
                                     getValue(chromosome, BITS_PER_COLOR_ELEM),
                                     getValue(chromosome, BITS_PER_COLOR_ELEM),
                                     getValue(chromosome, BITS_PER_COLOR_ELEM));
+
             
-            if (!hasCapacity(chromosome, (bitsPerX + bitsPerY) * 3)) break;
+            if (!hasCapacity(chromosome, bitsPerVertexCount)) break;
+            int numVertices = (getValue(chromosome, bitsPerVertexCount) % 
+                    (maxVerticesPerPoly - minVerticesPerPoly)) + minVerticesPerPoly;
+            
+            if (!hasCapacity(chromosome, numVertices * (bitsPerX + bitsPerY))) break;
             Polygon polygon = new Polygon();
-            
-            for (int i = 0; i < 3; ++i) {
+            for (int i = 0; i < numVertices; ++i) {
                 int x = getValue(chromosome, bitsPerX);
                 if (x >= sizeX) x = sizeX - 1;
                 
