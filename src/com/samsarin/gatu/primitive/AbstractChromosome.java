@@ -37,7 +37,13 @@ import java.util.BitSet;
     
     @Override
     public String toString() {
-        return bitSetValue().toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append("Chromosome[");
+        for (int i = 0; i < length(); ++i) {
+            sb.append(get(i) ? '1' : '0');
+        }
+        sb.append("]");
+        return sb.toString();
     }
     
     private void checkBounds(int index) {
