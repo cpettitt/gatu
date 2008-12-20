@@ -43,7 +43,7 @@ import com.samsarin.gatu.primitive.Pair;
         this.numBestToKeep = numBestToKeep;
     }
 
-    public Candidate call() throws Exception {
+    public Candidate call() {
         List<Chromosome> population = initialPopulation;
         int generationNum = 0;
 
@@ -92,7 +92,7 @@ import com.samsarin.gatu.primitive.Pair;
         List<Chromosome> chromosomes = new ArrayList<Chromosome>(size);
 
         double fitnessSum = getFitnessSum(candidates);
-        
+
         int numPairs = size / 2;
         for (int i = 0; i < numPairs; ++i) {
             Pair<Chromosome> pair = selectPair(candidates, fitnessSum);
@@ -100,10 +100,10 @@ import com.samsarin.gatu.primitive.Pair;
             chromosomes.add(mutate(pair.first()));
             chromosomes.add(mutate(pair.second()));
         }
-        
+
         return chromosomes;
     }
-    
+
     private double getFitnessSum(List<Candidate> candidates) {
         double sum = 0;
         for (Candidate candidate : candidates) {
@@ -111,7 +111,7 @@ import com.samsarin.gatu.primitive.Pair;
         }
         return sum;
     }
-    
+
     private Pair<Chromosome> selectPair(List<Candidate> candidates, double fitnessSum) {
         Chromosome first = selectionOp.select(candidates, fitnessSum);
         Chromosome second;
@@ -120,14 +120,14 @@ import com.samsarin.gatu.primitive.Pair;
         } while (first == second);
         return new Pair<Chromosome>(first, second);
     }
-    
+
     private Chromosome mutate(Chromosome chromosome) {
         for (MutationOp mutationOp : mutationOps) {
             chromosome = mutationOp.mutate(chromosome);
         }
         return chromosome;
     }
-    
+
     private void addBestToNextGen(List<Candidate> candidates, List<Chromosome> nextGen) {
         for (int i = 0; i < numBestToKeep; ++i) {
             nextGen.add(candidates.get(candidates.size() - i - 1).chromosome());

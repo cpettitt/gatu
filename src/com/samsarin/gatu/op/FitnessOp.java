@@ -7,18 +7,19 @@ package com.samsarin.gatu.op;
 import com.samsarin.gatu.primitive.Chromosome;
 
 /**
+ * An operation that generates a fitness value for a {@link com.samsarin.gatu.primitive.Chromosome}.
  *
  * @author cpettitt@samsarin.com
  */
 public interface FitnessOp {
-    
+
     /**
      * Returns the fitness for {@code chromosome}. The larger the returned
-     * value, the more "fit" the chromosome. 
+     * value, the more "fit" the chromosome.
      * <p/>
      * The fitness value must be deterministic. This function should always
      * return the same fitness value for the same chromosome.
-     * 
+     *
      * @param chromosome the chromosome to measure
      * @return the fitness value for this chromosome
      */

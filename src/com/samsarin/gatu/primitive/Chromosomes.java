@@ -8,16 +8,16 @@ import java.util.BitSet;
 import java.util.Random;
 
 /**
- * Helper methods for creating chromosomes.
- * 
+ * Helper methods for creating or working with {@link Chromosome}s.
+ *
  * @author cpettitt@samsarin.com
  */
 public class Chromosomes {
     private static final Random random = new Random();
-    
+
     /**
      * Creates a chromosome of the given length with a random set of genes.
-     * 
+     *
      * @param length the number of genes in the chromosome
      * @return the chromosome
      */
@@ -28,10 +28,10 @@ public class Chromosomes {
         }
         return new ChromosomeImpl(length, genes);
     }
-    
+
     /**
      * Creates an empty chromosome, where all genes are false, with {@code length}.
-     * 
+     *
      * @param length the length of the genes in the chromosome
      * @return the chromsome
      */
@@ -48,11 +48,11 @@ public class Chromosomes {
      * @param chromosome the chromosome from which to pull the bits
      * @param fromIndex index to start from (inclusive)
      * @param toIndex index to end at (exclusive)
-     * @return new integer 
+     * @return new integer
      */
     public static int rangeToInt(Chromosome chromosome, int fromIndex, int toIndex) {
         assert toIndex - fromIndex <= Integer.SIZE;
-        
+
         int value = 0;
         for (int i = fromIndex; i < toIndex; ++i) {
             value = (value << 1) + (chromosome.get(i) ? 1 : 0);
