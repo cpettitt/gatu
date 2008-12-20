@@ -3,6 +3,7 @@
     <property name="test.dir" value="test"/>
     <property name="build.dir" value="build"/>
     <property name="dist.dir" value="dist"/>
+    <property name="doc.api.dir" value="doc/api"/>
 
     <property name="javac.debug" value="true"/>
     <property name="javac.source" value="1.5"/>
@@ -48,6 +49,17 @@
         </junit>
     </target>
 
+    <target name="doc" description="Builds the documentation for gatu">
+        <javadoc packagenames="com.samsarin.gatu.*"
+                 sourcepath="${src.dir}"
+                 destdir="${doc.api.dir}"
+                 author="true"
+                 windowtitle="Gatu API Documentation">
+            <doctitle><![CDATA[<h1>Gatu API Documentation]]></doctitle>
+            <bottom><![CDATA[<i>Copyright &#169; 2008 Chris Pettitt. All rights reserved.</i>]]></bottom>
+        </javadoc>
+    </target>
+
     <target name="jar" depends="clean,build" description="Builds gatu.jar">
         <mkdir dir="${dist.dir}"/>
         <jar destfile="${dist.dir}/gatu-${version}.jar" basedir="${build.dir}"/>
@@ -55,6 +67,7 @@
 
     <target name="clean" description="Deletes all build artifacts">
         <delete dir="${build.dir}"/>
+        <delete dir="${doc.api.dir}"/>
         <delete dir="${dist.dir}"/>
     </target>
 </project>
