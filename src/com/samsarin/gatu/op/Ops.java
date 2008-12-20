@@ -24,7 +24,11 @@ import java.util.Random;
 public class Ops {
     private static final Random random = new Random();
 
+    private Ops() {}
+
     private static class Cache<T1, T2> extends LinkedHashMap<T1, T2> {
+        private static final long serialVersionUID = -1;
+
         private final int numToCache;
 
         public Cache(int numToCache) {

@@ -15,6 +15,8 @@ import java.util.List;
  */
 public class EngineListeners {
 
+    private EngineListeners() {}
+
     /**
      * For each generation this listener prints the generation number and
      * fitness to STDOUT. This can be useful to monitor the progress of an

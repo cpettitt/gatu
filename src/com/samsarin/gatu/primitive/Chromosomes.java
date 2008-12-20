@@ -15,6 +15,8 @@ import java.util.Random;
 public class Chromosomes {
     private static final Random random = new Random();
 
+    private Chromosomes() {}
+
     /**
      * Creates a chromosome of the given length with a random set of genes.
      *
