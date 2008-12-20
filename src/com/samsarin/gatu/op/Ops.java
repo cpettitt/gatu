@@ -9,6 +9,7 @@ import com.samsarin.gatu.primitive.CandidateKey;
 import com.samsarin.gatu.primitive.Chromosome;
 import com.samsarin.gatu.primitive.ChromosomeBuilder;
 import com.samsarin.gatu.primitive.Pair;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -121,13 +122,13 @@ public class Ops {
      *
      * <pre>
      * {@literal
-     *     Gene #:       0 1 2 3 4 5 6
+     * Gene #:       0 1 2 3 4 5 6
      *
-     *     Chromosome 1: A B C D E F G
-     *     Chromosome 2: 1 2 3 4 5 6 7
+     * Chromosome 1: A B C D E F G
+     * Chromosome 2: 1 2 3 4 5 6 7
      *
-     *     Child 1:      A B C 4 5 6 7
-     *     Child 2:      1 2 3 D E F G
+     * Child 1:      A B C 4 5 6 7
+     * Child 2:      1 2 3 D E F G
      * }
      * </pre>
      *
@@ -146,6 +147,32 @@ public class Ops {
                 for (int i = crossoverPoint; i < first.length(); ++i) {
                     swapGene(i, first, second);
                 }
+                return new Pair<Chromosome>(first.toChromosome(), second.toChromosome());
+            }
+        };
+    }
+
+    /**
+     * A {@link CrossoverOp} that randomly swaps genes from the two parents
+     * in the children. This differs from {@link #singlePointCrossover()} where
+     * each child gets one parent's genes exclusively until the crossover point,
+     * after which they get the other parent's gene.
+     *
+     * @return the crossover op
+     */
+    public static CrossoverOp uniformCrossover() {
+        return new CrossoverOp() {
+            public Pair<Chromosome> crossover(Pair<Chromosome> pair) {
+                assert pair.first().length() == pair.second().length();
+                ChromosomeBuilder first = new ChromosomeBuilder(pair.first());
+                ChromosomeBuilder second = new ChromosomeBuilder(pair.second());
+
+                for (int i = 0; i < pair.first().length(); ++i) {
+                    if (random.nextBoolean()) {
+                        swapGene(i, first, second);
+                    }
+                }
+
                 return new Pair<Chromosome>(first.toChromosome(), second.toChromosome());
             }
         };
@@ -171,6 +198,29 @@ public class Ops {
                 }
 
                 return candidates.get(index).chromosome();
+            }
+        };
+    }
+
+    /**
+     * A {@link SelectionOp} that randomly selects a subset of the population
+     * and then chooses the most fit {@link Chromosome} from that subpopulation.
+     *
+     * @param tournamentSize the number of chromosomes to select for the tournament
+     * @return the selection op
+     */
+    public static SelectionOp tournamentSelection(final int tournamentSize) {
+        return new SelectionOp() {
+            public Chromosome select(List<Candidate> candidates, double fitnessSum) {
+                List<Candidate> tournament = new ArrayList<Candidate>(tournamentSize);
+                while (tournament.size() < tournamentSize) {
+                    Candidate candidate = candidates.get(random.nextInt(candidates.size()));
+                    if (!tournament.contains(candidate)) {
+                        tournament.add(candidate);
+                    }
+                }
+
+                return tournament.get(random.nextInt(tournamentSize)).chromosome();
             }
         };
     }

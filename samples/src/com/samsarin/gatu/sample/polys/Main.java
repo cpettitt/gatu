@@ -31,12 +31,12 @@ public class Main {
         System.err.println("Usage: java " + Main.class.getName() + " src-image dest-dir [num-triangles]");
         System.exit(1);
     }
-    
+
     public static void main(String[] args) throws Exception {
         if (args.length < 2 || args.length > 3) {
             usage();
         }
-        
+
         final String srcFile = args[0];
         final String destDir = args[1];
         final int numTriangles = 200;
@@ -44,7 +44,7 @@ public class Main {
         if (args.length >= 3) {
             Integer.parseInt(args[2]);
         }
-        
+
         final BufferedImage srcImage = ImageIO.read(new File(srcFile));
         
         int chromosomeLength = PolygonDecoder.bitsToEncodeNumTriangles(numTriangles, srcImage.getWidth(), srcImage.getHeight());
@@ -55,7 +55,7 @@ public class Main {
                 .addMutationOp(Ops.inversion(0.00001))
                 .addListener(EngineListeners.generationPrinter())
                 .setTerminationOp(Ops.terminateAtGeneration(1000000));
-        
+
         builder.addListener(new EngineListener() {
             public void onGeneration(int generationNum, Candidate bestCandidate, List<Candidate> candidates) {
                 if (generationNum % 100 == 0) {
@@ -64,21 +64,21 @@ public class Main {
                 }
             }
         });
-        
+
         Engine engine = builder.build();
         Candidate best = engine.call();
-        
+
         System.out.println("Best fitness: " + best.fitness());
         saveCandidate(best, "best", srcImage.getWidth(), srcImage.getHeight(), destDir);
     }
 
     private static List<Chromosome> intialPopulation(int populationSize, int chromosomeLength) {
         List<Chromosome> population = new ArrayList<Chromosome>();
-        
+
         for (int i = 0; i < populationSize; ++i) {
             population.add(Chromosomes.random(chromosomeLength));
         }
-        
+
         return population;
     }
     
@@ -92,7 +92,7 @@ public class Main {
         try {
             out = new PrintStream(new File(destDir + "/" + id + ".svg"));
             out.println("<?xml version=\"1.0\" standalone=\"no\"?>");
-            out.println("<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\""); 
+            out.println("<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\"");
             out.println("    \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">");
             out.println("<svg width=\"" + sizeX + "px\" height=\"" + sizeY + "px\"");
             out.println("    version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">");
@@ -106,7 +106,7 @@ public class Main {
                 for (int i = 0; i < poly.npoints; ++i) {
                     out.print(poly.xpoints[i] + "," + poly.ypoints[i] + " ");
                 }
-                
+
                 Color color = coloredPoly.color();
                 out.println("\" fill=\"rgb(" + color.getRed() + "," + color.getGreen() + "," +
                         color.getBlue() + ")\" fill-opacity=\"" + (color.getAlpha() / (double)255) + "\"/>");
@@ -121,10 +121,10 @@ public class Main {
             }
         }
     }
-    
+
     private static void saveFitness(Candidate candidate, String id, String destDir) {
         PrintStream out = null;
-        
+
         try {
             out = new PrintStream(new File(destDir +"/" + id + ".fitness.txt"));
             out.println("Fitness: " + candidate.fitness());
