@@ -28,18 +28,20 @@ import javax.imageio.ImageIO;
  */
 public class Main {
     public static void usage() {
-        System.err.println("Usage: java " + Main.class.getName() + " src-image dest-dir [num-triangles]");
+        System.err.println("Usage: java " + Main.class.getName() + " src-image dest-dir [num-polys]");
         System.exit(1);
     }
 
     public static void main(String[] args) throws Exception {
-        if (args.length < 2 || args.length > 3) {
+        if (args.length < 2 || args.length > 4) {
             usage();
         }
 
         final String srcFile = args[0];
         final String destDir = args[1];
-        final int numTriangles = 200;
+        final int numPolys = 200;
+        final int minVerticesPerPoly = 3;
+        final int maxVerticesPerPoly = 10;
         
         if (args.length >= 3) {
             Integer.parseInt(args[2]);
@@ -47,12 +49,13 @@ public class Main {
 
         final BufferedImage srcImage = ImageIO.read(new File(srcFile));
         
-        int chromosomeLength = PolygonDecoder.bitsToEncodeNumTriangles(numTriangles, srcImage.getWidth(), srcImage.getHeight());
+        int chromosomeLength = PolygonDecoder.estimatedBitsToEncodePolys(numPolys,
+                (minVerticesPerPoly + maxVerticesPerPoly) / 2, srcImage.getWidth(), srcImage.getHeight());
         
-        FitnessOp fitnessOp = new ImageFitnessOp(srcImage);
+        FitnessOp fitnessOp = new ImageFitnessOp(srcImage, minVerticesPerPoly, maxVerticesPerPoly);
         EngineBuilder builder = new EngineBuilder(intialPopulation(10, chromosomeLength), Ops.cachingFitness(fitnessOp, 50))
-                .addMutationOp(Ops.pointMutation(0.0001))
-                .addMutationOp(Ops.inversion(0.00001))
+                .addMutationOp(Ops.pointMutation(5 / chromosomeLength))
+                .addMutationOp(Ops.inversion(0.1 / chromosomeLength))
                 .addListener(EngineListeners.generationPrinter())
                 .setTerminationOp(Ops.terminateAtGeneration(1000000));
 
@@ -60,7 +63,8 @@ public class Main {
             public void onGeneration(int generationNum, Candidate bestCandidate, List<Candidate> candidates) {
                 if (generationNum % 100 == 0) {
                     saveCandidate(bestCandidate, Integer.toString(generationNum), 
-                            srcImage.getWidth(), srcImage.getHeight(), destDir);
+                            srcImage.getWidth(), srcImage.getHeight(), 
+                            minVerticesPerPoly, maxVerticesPerPoly, destDir);
                 }
             }
         });
@@ -69,7 +73,8 @@ public class Main {
         Candidate best = engine.call();
 
         System.out.println("Best fitness: " + best.fitness());
-        saveCandidate(best, "best", srcImage.getWidth(), srcImage.getHeight(), destDir);
+        saveCandidate(best, "best", srcImage.getWidth(), srcImage.getHeight(), 
+                minVerticesPerPoly, maxVerticesPerPoly, destDir);
     }
 
     private static List<Chromosome> intialPopulation(int populationSize, int chromosomeLength) {
@@ -82,12 +87,14 @@ public class Main {
         return population;
     }
     
-    private static void saveCandidate(Candidate candidate, String id, int sizeX, int sizeY, String destDir) {
+    private static void saveCandidate(Candidate candidate, String id, int sizeX, int sizeY, 
+            int minVerticesPerPoly, int maxVerticesPerPoly, String destDir) {
         saveFitness(candidate, id, destDir);
-        saveSvg(candidate.chromosome(), id, sizeX, sizeY, destDir);
+        saveSvg(candidate.chromosome(), id, sizeX, sizeY, minVerticesPerPoly, maxVerticesPerPoly, destDir);
     }
     
-    private static void saveSvg(Chromosome chromosome, String id, int sizeX, int sizeY, String destDir) {
+    private static void saveSvg(Chromosome chromosome, String id, int sizeX, int sizeY,
+            int minVerticesPerPoly, int maxVerticesPerPoly, String destDir) {
         PrintStream out = null;
         try {
             out = new PrintStream(new File(destDir + "/" + id + ".svg"));
@@ -99,7 +106,8 @@ public class Main {
 
             out.println("    <rect width=\"" + sizeX + "\" height=\"" + sizeY + "\" style=\"fill:black\"/>");
 
-            List<ColoredPolygon> polygons = PolygonDecoder.decode(chromosome, sizeX, sizeY);
+            List<ColoredPolygon> polygons = PolygonDecoder.decode(chromosome, sizeX, sizeY,
+                    minVerticesPerPoly, maxVerticesPerPoly);
             for (ColoredPolygon coloredPoly : polygons) {
                 out.print("    <polygon points=\"");
                 Polygon poly = coloredPoly.polygon();
