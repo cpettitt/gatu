@@ -1,4 +1,4 @@
-<project name="gatu">
+<project name="gatu" default="build">
     <property name="src.dir" value="src"/>
     <property name="test.dir" value="test"/>
     <property name="build.dir" value="build"/>
@@ -29,16 +29,19 @@
     </target>
 
     <target name="test" depends="build" description="Builds and runs the gatu unit tests">
-        <available property="junit4.available" classname="org.junit.Test"/>
-        <fail unless="junit4.available" message="JUnit4 must be in your classpath to run the tests"/>
-
         <javac srcdir="${test.dir}"
                destdir="${build.dir}"
                debug="${javac.debug}"
-               source="${javac.source}"/>
+               source="${javac.source}">
+            <classpath>
+                <pathelement path="lib/junit-4.5.jar"/>
+            </classpath>
+        </javac>
+
         <junit printsummary="true">
             <classpath>
                 <pathelement path="${build.dir}"/>
+                <pathelement path="lib/junit-4.5.jar"/>
             </classpath>
 
             <batchtest>
