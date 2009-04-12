@@ -63,7 +63,7 @@
         </javadoc>
     </target>
 
-    <target name="jar" depends="clean,build" description="Builds gatu-${version}.jar">
+    <target name="jar" depends="build" description="Builds gatu-${version}.jar">
         <mkdir dir="${dist.dir}"/>
         <jar destfile="${dist.dir}/gatu-${version}.jar" basedir="${build.dir}"/>
     </target>
