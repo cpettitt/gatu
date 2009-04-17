@@ -11,7 +11,7 @@ import com.samsarin.gatu.primitive.Pair;
  * An operation that crosses-over (mates) two chromosomes and produces two
  * new chromomsomes.
  *
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public interface CrossoverOp {
 

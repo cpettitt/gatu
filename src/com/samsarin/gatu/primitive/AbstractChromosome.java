@@ -7,7 +7,7 @@ package com.samsarin.gatu.primitive;
 import java.util.BitSet;
 
 /**
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 /* package private */ abstract class AbstractChromosome implements Chromosome {
     

@@ -13,7 +13,7 @@ import com.samsarin.gatu.primitive.Chromosomes;
 import static org.junit.Assert.*;
 
 /**
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public class ChromosomeTest {
     @Test

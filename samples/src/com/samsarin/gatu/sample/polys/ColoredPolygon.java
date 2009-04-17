@@ -8,7 +8,7 @@ import java.awt.Color;
 import java.awt.Polygon;
 
 /**
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public class ColoredPolygon {
     private final Color color;

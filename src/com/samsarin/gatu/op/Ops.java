@@ -20,7 +20,7 @@ import java.util.Random;
  * This class provides a set of static methods for creating common implementations
  * of various genetic algorithm operations.
  *
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public class Ops {
     private static final Random random = new Random();
@@ -139,7 +139,6 @@ public class Ops {
             public Pair<Chromosome> crossover(Pair<Chromosome> pair) {
                 assert pair.first().length() == pair.second().length();
                 int crossoverPoint = random.nextInt(pair.first().length() - 1) + 1;
-                int length = pair.first().length();
 
                 ChromosomeBuilder first = new ChromosomeBuilder(pair.first());
                 ChromosomeBuilder second = new ChromosomeBuilder(pair.second());

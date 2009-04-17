@@ -9,7 +9,7 @@ package com.samsarin.gatu.primitive;
  * Candidates are used for selection and reporting on the best chromosome in
  * a population.
  *
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public interface Candidate extends Comparable<Candidate> {
 

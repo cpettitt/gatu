@@ -11,7 +11,7 @@ import java.util.List;
  * This class provides static methods for creating common {@link EngineListener}
  * types.
  *
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public class EngineListeners {
 

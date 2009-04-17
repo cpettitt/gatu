@@ -9,7 +9,7 @@ package com.samsarin.gatu.primitive;
  * This class is thread-safe.
  *
  * @param <T> the type of the pair elements
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public class Pair<T> {
     private final T first;
@@ -49,7 +49,8 @@ public class Pair<T> {
         if (this == o) return true;
 
         if (!(o instanceof Pair)) return false;
-        Pair p = (Pair)o;
+        @SuppressWarnings("unchecked")
+        Pair<T> p = (Pair<T>)o;
 
         return first.equals(p.first) && second.equals(p.second);
     }

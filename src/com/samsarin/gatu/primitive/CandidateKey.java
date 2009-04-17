@@ -4,7 +4,7 @@ package com.samsarin.gatu.primitive;
  * A candidate key can be used to search for a candidate with the given fitness
  * in a sorted list.
  *
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public class CandidateKey implements Candidate {
     private final double fitness;

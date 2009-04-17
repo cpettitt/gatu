@@ -31,7 +31,7 @@ import com.samsarin.gatu.primitive.Chromosome;
  * }
  * </pre>
  *
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public class EngineBuilder {
     private final List<Chromosome> initialPopulation;

@@ -12,7 +12,7 @@ import static junit.framework.Assert.*;
 
 /**
  *
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public class ChromosomeBuilderTest {
     @Test

@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * An operation that chooses a single chromosome from a population.
  *
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public interface SelectionOp {
 

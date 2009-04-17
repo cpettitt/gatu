@@ -9,7 +9,7 @@ import com.samsarin.gatu.primitive.Chromosome;
 
 
 /**
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 /* package private */ class CandidateImpl implements Candidate {
     private final double fitness;

@@ -9,7 +9,7 @@ import com.samsarin.gatu.primitive.Chromosome;
 /**
  * An operation that changes a chromosome in some way.
  * 
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public interface MutationOp {
     

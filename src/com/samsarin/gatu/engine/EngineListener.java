@@ -12,7 +12,7 @@ import com.samsarin.gatu.primitive.Candidate;
  * from generation to generation. Implementations must be registered with the
  * {@link EngineBuilder} to receive notifications.
  *
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public interface EngineListener {
 

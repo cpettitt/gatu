@@ -14,7 +14,7 @@ import com.samsarin.gatu.primitive.Candidate;
  * <p/>
  * To construct an Engine use the {@link EngineBuilder}.
  *
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public interface Engine extends Callable<Candidate> {
 

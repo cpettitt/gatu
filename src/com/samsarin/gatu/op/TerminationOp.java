@@ -9,7 +9,7 @@ import com.samsarin.gatu.primitive.Candidate;
 /**
  * An operation that determines when the engine should finish.
  *
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public interface TerminationOp {
 

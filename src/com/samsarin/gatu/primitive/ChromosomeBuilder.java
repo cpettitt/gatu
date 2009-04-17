@@ -16,7 +16,7 @@ import java.util.BitSet;
  * <p/>
  * This class is not thread safe.
  *
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public class ChromosomeBuilder {
     private final BitSet bitSet;

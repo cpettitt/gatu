@@ -9,7 +9,7 @@ import com.samsarin.gatu.primitive.Chromosome;
 /**
  * An operation that generates a fitness value for a {@link com.samsarin.gatu.primitive.Chromosome}.
  *
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public interface FitnessOp {
 

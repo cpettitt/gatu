@@ -16,7 +16,7 @@ import com.samsarin.gatu.primitive.Chromosomes;
 import com.samsarin.gatu.primitive.Pair;
 
 /**
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public class OpsTest {
     @Test

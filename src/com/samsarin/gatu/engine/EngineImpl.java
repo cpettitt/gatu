@@ -17,7 +17,7 @@ import com.samsarin.gatu.primitive.Chromosome;
 import com.samsarin.gatu.primitive.Pair;
 
 /**
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 /* package private */class EngineImpl implements Engine {
     private final List<Chromosome> initialPopulation;

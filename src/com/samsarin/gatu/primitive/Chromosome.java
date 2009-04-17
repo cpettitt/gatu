@@ -12,7 +12,7 @@ package com.samsarin.gatu.primitive;
  * <p/>
  * Use {@link ChromosomeBuilder} to change a chromosome's values.
  *
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public interface Chromosome {
     /**

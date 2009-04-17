@@ -18,9 +18,13 @@ import com.samsarin.gatu.primitive.Chromosomes;
 import static junit.framework.Assert.*;
 
 /**
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public class EngineIntegrationTest {
+    /**
+     * This test runs the default number of times (1000) which should result
+     * in convergence on the optimal solution, 15 (encoded as 1111).
+     */
     @Test
     public void call() throws Exception {
         List<Chromosome> population = initialPopulation();

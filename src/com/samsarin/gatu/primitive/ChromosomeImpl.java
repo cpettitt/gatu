@@ -8,7 +8,7 @@ import java.util.BitSet;
 
 /**
  *
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 /* package private */ class ChromosomeImpl extends AbstractChromosome {
     private final BitSet genes;

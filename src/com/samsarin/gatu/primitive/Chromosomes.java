@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * Helper methods for creating or working with {@link Chromosome}s.
  *
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public class Chromosomes {
     private static final Random random = new Random();

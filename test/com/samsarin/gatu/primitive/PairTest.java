@@ -8,7 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public class PairTest {
     @Test

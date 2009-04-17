@@ -15,7 +15,7 @@ import java.util.List;
  * Converts a chromosome into its phenotype (set of colors and polygons).
  * This class is NOT thread-safe.
  *
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public class PolygonDecoder {
     private static final int BITS_PER_COLOR_ELEM = 8;

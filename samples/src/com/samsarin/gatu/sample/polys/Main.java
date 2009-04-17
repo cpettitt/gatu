@@ -24,7 +24,7 @@ import javax.imageio.ImageIO;
 
 /**
  *
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public class Main {
     public static void usage() {

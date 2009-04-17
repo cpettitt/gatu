@@ -13,7 +13,7 @@ import java.awt.image.WritableRaster;
 import java.util.List;
 
 /**
- * @author cpettitt@samsarin.com
+ * @author chris@samsarin.com
  */
 public class ImageFitnessOp implements FitnessOp {
     private final int sizeX;
