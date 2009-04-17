@@ -5,7 +5,7 @@
 package com.samsarin.gatu.sample.polys;
 
 import com.samsarin.gatu.primitive.Chromosome;
-import com.samsarin.gatu.primitive.Chromosomes;
+import com.samsarin.gatu.primitive.ChromosomeReader;
 import java.awt.Color;
 import java.awt.Polygon;
 import java.util.ArrayList;
@@ -27,7 +27,6 @@ public class PolygonDecoder {
     private final int minVerticesPerPoly;
     private final int maxVerticesPerPoly;
     private final int bitsPerVertexCount;
-    private int index;
     
     private PolygonDecoder(int sizeX, int sizeY, int minVerticesPerPoly, int maxVerticesPerPoly) {
         this.sizeX = sizeX;
@@ -52,25 +51,26 @@ public class PolygonDecoder {
     public List<ColoredPolygon> decode(Chromosome chromosome) {
         List<ColoredPolygon> coloredPolys = new ArrayList<ColoredPolygon>();
 
+        ChromosomeReader reader = new ChromosomeReader(chromosome);
+        
         while (true) {
-            if (!hasCapacity(chromosome, BITS_PER_COLOR_ELEM * 4)) break;
-            Color color = new Color(getValue(chromosome, BITS_PER_COLOR_ELEM),
-                                    getValue(chromosome, BITS_PER_COLOR_ELEM),
-                                    getValue(chromosome, BITS_PER_COLOR_ELEM),
-                                    getValue(chromosome, BITS_PER_COLOR_ELEM));
-
+            if (reader.remaining() < BITS_PER_COLOR_ELEM * 4) break;
+            Color color = new Color(reader.readInt(BITS_PER_COLOR_ELEM),
+                                    reader.readInt(BITS_PER_COLOR_ELEM),
+                                    reader.readInt(BITS_PER_COLOR_ELEM),
+                                    reader.readInt(BITS_PER_COLOR_ELEM));
             
-            if (!hasCapacity(chromosome, bitsPerVertexCount)) break;
-            int numVertices = (getValue(chromosome, bitsPerVertexCount) % 
+            if (reader.remaining() < bitsPerVertexCount) break;
+            int numVertices = (reader.readInt(bitsPerVertexCount) % 
                     (maxVerticesPerPoly - minVerticesPerPoly)) + minVerticesPerPoly;
             
-            if (!hasCapacity(chromosome, numVertices * (bitsPerX + bitsPerY))) break;
+            if (reader.remaining() < numVertices * (bitsPerX + bitsPerY)) break;
             Polygon polygon = new Polygon();
             for (int i = 0; i < numVertices; ++i) {
-                int x = getValue(chromosome, bitsPerX);
+                int x = reader.readInt(bitsPerX);
                 if (x >= sizeX) x = sizeX - 1;
 
-                int y= getValue(chromosome, bitsPerY);
+                int y= reader.readInt(bitsPerY);
                 if (y >= sizeY) y = sizeY - 1;
 
                 polygon.addPoint(x, y);
@@ -80,16 +80,6 @@ public class PolygonDecoder {
         }
 
         return coloredPolys;
-    }
-
-    private int getValue(Chromosome chromosome, int numBits) {
-        int value = Chromosomes.rangeToInt(chromosome, index, index + numBits);
-        index += numBits;
-        return value;
-    }
-
-    private boolean hasCapacity(Chromosome chromosome, int numBits) {
-        return chromosome.length() - index >= numBits;
     }
 
     private static int getBitsToStore(int value) {

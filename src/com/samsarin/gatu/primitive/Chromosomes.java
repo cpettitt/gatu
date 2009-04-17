@@ -41,24 +41,4 @@ public class Chromosomes {
         BitSet genes = new BitSet(length);
         return new ChromosomeImpl(length, genes);
     }
-
-    /**
-     * Returns a range of bits from {@code chromosome} packed into an integer. Bits
-     * are inserted into the integer from the most significant bit to the least
-     * signficant bit.
-     *
-     * @param chromosome the chromosome from which to pull the bits
-     * @param fromIndex index to start from (inclusive)
-     * @param toIndex index to end at (exclusive)
-     * @return new integer
-     */
-    public static int rangeToInt(Chromosome chromosome, int fromIndex, int toIndex) {
-        assert toIndex - fromIndex <= Integer.SIZE;
-
-        int value = 0;
-        for (int i = fromIndex; i < toIndex; ++i) {
-            value = (value << 1) + (chromosome.get(i) ? 1 : 0);
-        }
-        return value;
-    }
 }

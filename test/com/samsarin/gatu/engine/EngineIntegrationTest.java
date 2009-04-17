@@ -13,6 +13,7 @@ import com.samsarin.gatu.op.FitnessOp;
 import com.samsarin.gatu.op.Ops;
 import com.samsarin.gatu.primitive.Candidate;
 import com.samsarin.gatu.primitive.Chromosome;
+import com.samsarin.gatu.primitive.ChromosomeReader;
 import com.samsarin.gatu.primitive.Chromosomes;
 
 import static junit.framework.Assert.*;
@@ -39,7 +40,7 @@ public class EngineIntegrationTest {
     private FitnessOp fitnessOp() {
         return new FitnessOp() {
             public double fitness(Chromosome chromosome) {
-                return Chromosomes.rangeToInt(chromosome, 0, 4);
+                return new ChromosomeReader(chromosome).readInt(4);
             }};
     }
     

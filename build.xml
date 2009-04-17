@@ -38,7 +38,7 @@
             </classpath>
         </javac>
 
-        <junit printsummary="true">
+        <junit printsummary="true" failureproperty="test.fail">
             <classpath>
                 <pathelement path="${build.dir}"/>
                 <pathelement path="lib/junit-4.5.jar"/>
@@ -50,6 +50,7 @@
                 </fileset>
             </batchtest>
         </junit>
+    	<fail if="test.fail" message="Unit tests failed"/>
     </target>
 
     <target name="doc" description="Builds the documentation for gatu">

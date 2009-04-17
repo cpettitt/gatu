@@ -38,21 +38,6 @@ public class ChromosomeTest {
         }
     }
     
-    @Test
-    public void rangeToInt() {
-        Chromosome c = new ChromosomeBuilder(4)
-                .set(0, true)
-                .set(1, true)
-                .set(2, false)
-                .set(3, false)
-                .toChromosome();
-
-        assertEquals(12, Chromosomes.rangeToInt(c, 0, 4));
-        assertEquals(6, Chromosomes.rangeToInt(c, 0, 3));
-        assertEquals(0, Chromosomes.rangeToInt(c, 2, 4));
-        assertEquals(2, Chromosomes.rangeToInt(c, 1, 3));
-    }
-    
     @Test 
     public void equals() {
         assertEquals(new ChromosomeBuilder(2).set(0, true).toChromosome(),
