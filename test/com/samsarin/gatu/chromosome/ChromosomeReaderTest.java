@@ -63,4 +63,18 @@ public class ChromosomeReaderTest {
         reader.reset();
         assertEquals(expected, reader.readDouble(), 0);
     }
+    
+    @Test
+    public void readBit() {
+        Chromosome c = new ChromosomeBuilder(4)
+                .set(0, true)
+                .set(1, true)
+                .toChromosome();
+        
+        ChromosomeReader reader = new ChromosomeReader(c);
+        assertTrue(reader.readBit());
+        assertTrue(reader.readBit());
+        assertFalse(reader.readBit());
+        assertFalse(reader.readBit());
+    }
 }

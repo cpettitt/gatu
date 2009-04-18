@@ -67,6 +67,16 @@ public class ChromosomeReader {
     }
     
     /**
+     * Reads a single bit from the Chromosome and returns {@code true} if
+     * the bit is 1 and {@code false} if the bit is 0.
+     * 
+     * @return the boolean value of the next bit in the Chromosome.
+     */
+    public boolean readBit() {
+        return readInt(1) != 0;
+    }
+    
+    /**
      * Returns an int value by reading {@link Integer#SIZE} bits.
      * 
      * @return an int value.
